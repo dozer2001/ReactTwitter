@@ -1,4 +1,4 @@
-import {PostListItem,PostListDate} from './post-list-item'
+import PostListItem from './post-list-item'
 
 
-export  {PostListItem,PostListDate};
+export default PostListItem;

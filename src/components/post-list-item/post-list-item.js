@@ -1,6 +1,14 @@
 import React from 'react';
 import './post-list-item.css'
 const PostListItem = () => {
+    let date1 = new Date();
+    let options = {
+        timezone: 'UTC',
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric'
+    };
+    let date = date1.toLocaleString("ru", options);
     return(
         <li className="app-list-item d-flex justify-content-between">
             <span className="app-list-item-label">
@@ -14,30 +22,16 @@ const PostListItem = () => {
                     <i className="fa fa-trash-o"></i>
                 </button>
                 <i className="fa fa-heart"></i>
-
+                {date}
             </div>
+
+
         </li>
     )
 
 
 };
 const PostListDate = () => {
-    let date1 = new Date();
-    let options = {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        weekday: 'long',
-        timezone: 'UTC',
-        hour: 'numeric',
-        minute: 'numeric',
-        second: 'numeric'
-    };
-    let date = date1.toLocaleString("ru", options);
-    return (
-        <span className="post-list-date">
-            {date}
-        </span>
-    )
+
 };
-export {PostListItem,PostListDate};
+export default PostListItem;
