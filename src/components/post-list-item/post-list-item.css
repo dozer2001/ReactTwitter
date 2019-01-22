@@ -54,5 +54,7 @@
 }
 .post-list-date{
     color: gray;
-
+}
+.hide{
+    display: none;
 }
