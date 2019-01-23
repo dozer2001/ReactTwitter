@@ -59,6 +59,7 @@ export default class PostListItem extends Component {
         }
         if (edit) {
             hide += ' hide';
+
         }
 
         return (

@@ -5,7 +5,8 @@ import PostListItem from '../post-list-item'
 const PostList = ({posts}) =>{
 
     const elements = posts.map((item) => {
-        if(item instanceof Object){
+
+        if(item instanceof Object &&   Object.keys(item).length !== 0){
             return(
                 <li key={item.id} className="list-group-item">
                     <PostListItem{...item}/>
@@ -13,6 +14,7 @@ const PostList = ({posts}) =>{
             )
         }
     });
+
     return(
         <ul className="app-list list-group">
             {elements}
