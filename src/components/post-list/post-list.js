@@ -7,8 +7,10 @@ import { ListGroup,ListGroupItem } from 'reactstrap';
 const PostList = ({posts,onDelete}) =>{
 
     const elements = posts.map((item) => {
-        const {id,label,important,...ItemProps} = item;
-        if(item instanceof Object    ){
+        const {id,...ItemProps} = item;
+        const {label} = item;
+
+        if(label !== '' && label && id   ){
             return(
                 <ListGroupItem key={id} >
                     <PostListItem{...ItemProps}
