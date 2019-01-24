@@ -17,7 +17,8 @@ const PostList = ({posts,onDelete,onChanche,onToggleLiked,onToggleImportant}) =>
                     onDelete={() => onDelete(id)}
                     onChanche ={() => onChanche(label)}
                     onToggleImportant = {() => onToggleImportant(id)}
-                    onToggleLiked = {() => onToggleLiked(id)}/>
+                    onToggleLiked = {() => onToggleLiked(id)}
+                    />
                 </ListGroupItem>
             )
         }

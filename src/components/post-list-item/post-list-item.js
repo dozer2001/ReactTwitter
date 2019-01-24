@@ -26,7 +26,6 @@ export default class PostListItem extends Component {
             classNames += ' like'
         }
 
-
         return (
             <div className={classNames}>
             <span

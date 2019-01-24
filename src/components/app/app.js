@@ -22,9 +22,9 @@ export default class App extends Component  {
         super(props);
         this.state = {
             data: [
-                {label: "Going to learn React", important: true, id: 1,like: false},
-                {label: "That is so good", important: true, id: 2,like: false},
-                {label: "I need a break...", important: false, id: 3,like: false}
+                {label: "Going to learn React", important: true, id: idGenerator(),like: false},
+                {label: "That is so good", important: true, id: idGenerator(),like: false},
+                {label: "I need a break...", important: false, id: idGenerator(),like: false}
             ],
             term: '',
             filter: 'all'
@@ -52,8 +52,6 @@ export default class App extends Component  {
     ChenchLabel(label){
         let edittext = document.querySelector('.change');
         let t = edittext.value;
-        console.log();
-
         this.setState(({data}) =>{
             const index = data.filter(elem => elem.label === label);
              const j = [data.slice(0,2)];
@@ -87,18 +85,23 @@ export default class App extends Component  {
             const index = data.findIndex( elem => elem.id === id);
 
             const old = data[index];
-            const newItem = {...old,important: !old.important};
+            // const newItem = {...old,important: !old.important};
+            const newItemTwo =  {...old,like: !old.like,important: !old.important};
 
-            const newArr = [...data.slice(0, index), newItem,...data.slice(index + 1)];
+            const newArr = [...data.slice(0, index),newItemTwo,...data.slice(index + 1)];
 
             return{
                 data: newArr
             }
         }) }
     onToggleLiked(id){
-       this.setState(({data}) =>{
+        const star = document.querySelector('body');
+        console.log(id);
+        this.setState(({data}) =>{
            const index = data.findIndex( elem => elem.id === id);
-
+            star.addEventListener('click',(e) =>{
+                console.log(e);
+            });
            const old = data[index];
            const newItem = {...old,like: !old.like};
 
