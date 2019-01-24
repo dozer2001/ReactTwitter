@@ -1,5 +1,5 @@
 import React from 'react';
-import './app-header.css';
+
 import styled from 'styled-components';
 const Header = styled.div`
   display: flex
@@ -13,11 +13,11 @@ const Header = styled.div`
   color: grey;
   }
 `;
-const AppHeader = () => {
+const AppHeader = ({liked,allPosts}) => {
     return(
         <Header >
             <h1>Kucher Ilya</h1>
-            <h2>5 записей, из них понравилось 0</h2>
+            <h2>{allPosts}, из них понравилось {liked}</h2>
         </Header>
     )
 };

@@ -1,5 +1,5 @@
-import React from 'react';
-import './search-panel.css';
+import React, {Component} from 'react';
+
 import styled from 'styled-components';
 
 const SearchInput = styled.input`
@@ -8,13 +8,30 @@ const SearchInput = styled.input`
   margin-right: 3px;
  
 `;
-const SearchPanel = () => {
-    return (
-        <SearchInput
-            type="text"
-            placeholder="Поиск по записям"
-        />
+export default class SearchPanel extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            term: ''
+        };
+        this.onUpdateSearch = this.onUpdateSearch.bind(this)
+    }
+    onUpdateSearch(e){
+        const term = e.target.value;
+        this.setState({term});
+        this.props.onUpdateSearch(term)
+    }
+    render(){
+        return (
+            <SearchInput
+                type="text"
+                placeholder="Поиск по записям"
+                onChange={this.onUpdateSearch}
+            />
 
-    )
+        )
+    }
+
+
 };
-export default SearchPanel;
+
