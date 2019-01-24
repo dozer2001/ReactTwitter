@@ -17,17 +17,19 @@ display: flex;
 margin: 1rem 0;
 `;
 
-export default class App extends Component  {
-    constructor(props){
+export default class App extends Component {
+    constructor(props) {
         super(props);
         this.state = {
             data: [
-                {label: "Going to learn React", important: true, id: idGenerator(),like: false},
-                {label: "That is so good", important: true, id: idGenerator(),like: false},
-                {label: "I need a break...", important: false, id: idGenerator(),like: false}
+                {label: "Going to learn React", important: true, id: idGenerator(), like: false},
+                {label: "That is so good", important: true, id: idGenerator(), like: false},
+                {label: "I need a break...", important: false, id: idGenerator(), like: false}
             ],
             term: '',
-            filter: 'all'
+            filter: 'all',
+
+
         };
         this.deleteItem = this.deleteItem.bind(this);
         this.addItem = this.addItem.bind(this);
@@ -37,122 +39,144 @@ export default class App extends Component  {
         this.onUpdateSearch = this.onUpdateSearch.bind(this);
         this.onFilterSelect = this.onFilterSelect.bind(this);
     }
-    deleteItem(id){
-        this.setState(({data}) =>{
 
+    deleteItem(id) {
+        this.setState(({data}) => {
             const index = data.findIndex(elem => elem.id === id);
-            console.log(index);
             const newArr = [...data.slice(0, index), ...data.slice(index + 1)];
-            console.log(newArr);
-            return{
+            return {
                 data: newArr
             }
         })
     }
-    ChenchLabel(label){
+
+    ChenchLabel(label) {
         let edittext = document.querySelector('.change');
         let t = edittext.value;
-        this.setState(({data}) =>{
+        this.setState(({data}) => {
             const index = data.filter(elem => elem.label === label);
-             const j = [data.slice(0,2)];
+            const j = [data.slice(0, 2)];
             const newItem = {
-                 label:t,
+                label: t,
                 important: false,
                 id: idGenerator()
             };
-           const newArr = {...newItem,...data};
+            const newArr = {...newItem, ...data};
 
-            return{
+            return {
                 // data:newArr
             }
         });
     }
-    addItem(body){
+
+    addItem(body) {
         const newItem = {
             label: body,
             important: false,
             id: idGenerator()
         };
-        this.setState(({data}) =>{
-          const newArr = [...data, newItem];
-            return{
-              data: newArr
-          }
-        })
-    }
-    onToggleImportant(id){
-        this.setState(({data}) =>{
-            const index = data.findIndex( elem => elem.id === id);
-
-            const old = data[index];
-            // const newItem = {...old,important: !old.important};
-            const newItemTwo =  {...old,like: !old.like,important: !old.important};
-
-            const newArr = [...data.slice(0, index),newItemTwo,...data.slice(index + 1)];
-
-            return{
+        this.setState(({data}) => {
+            const newArr = [...data, newItem];
+            return {
                 data: newArr
             }
-        }) }
-    onToggleLiked(id){
-        const star = document.querySelector('body');
-        console.log(id);
-        this.setState(({data}) =>{
-           const index = data.findIndex( elem => elem.id === id);
-            star.addEventListener('click',(e) =>{
-                console.log(e);
-            });
-           const old = data[index];
-           const newItem = {...old,like: !old.like};
-
-           const newArr = [...data.slice(0, index), newItem,...data.slice(index + 1)];
-
-           return{
-               data: newArr
-           }
-       })
-    }
-    searchPost(items, term){
-        if (term.length === 0){
-            return items
-        }
-
-        return items.filter( (item) =>{
-            return item.label.indexOf(term) > -1
         })
     }
-    onUpdateSearch(term){
+
+    onToggleImportant(id) {
+        this.LikeOrImportant(1,id);
+    }
+    onToggleLiked(id) {
+        this.LikeOrImportant(2,id);
+    }
+    LikeOrImportant(prop,id) {
+
+        switch (prop){
+            case 1:
+                this.setState(({data}) => {
+                    const index = data.findIndex(elem => elem.id === id);
+                    const old = data[index];
+                    const newItem = {...old, important: !old.important};
+                    const newArr = [...data.slice(0, index), newItem, ...data.slice(index + 1)];
+
+                    return {
+                        data: newArr
+                    }
+                });
+                break;
+            case 2 :
+                    this.setState(({data}) => {
+                        const index = data.findIndex(elem => elem.id === id);
+                        const old = data[index];
+                        const newItem = {...old, like: !old.like};
+                        const newArr = [...data.slice(0, index), newItem, ...data.slice(index + 1)];
+
+                        return {
+                            data: newArr
+                        }
+                    });
+                break;
+        }
+
+
+    }
+
+
+
+
+    searchPost(items, term) {
+
+        if (term.length === 0) {
+            return items
+        }
+
+        return items.filter((item) => {
+            const regexp = /G[a-b].*/i;
+
+            // return item.label.indexOf(term) > -1
+            return item.label.exec(term) > -1
+        })
+    }
+
+    onUpdateSearch(term) {
         this.setState({term})
     }
-    filterPost(items, filter){
-        if (filter === 'like'){
+
+    filterPost(items, filter) {
+        if (filter === 'like') {
+
             return items.filter(item => item.like)
-        }else{
+        } else {
             return items
         }
     }
-    onFilterSelect(filter){
+
+    onFilterSelect(filter) {
         this.setState({filter})
     }
-    render(){
+
+    render() {
         const {data, term, filter} = this.state;
         const liked = data.filter(item => item.like).length;
         const allPosts = data.length;
         const visiblePosts = this.filterPost(this.searchPost(data, term), filter);
+        const word = allPosts >4 ?  'постов' : 'поста';
+
 
         return (
             <AppBlock>
                 <AppHeader
                     liked={liked}
                     allPosts={allPosts}
+                    word = {word}
                 />
-                <AppSearch >
+                <AppSearch>
                     <SearchPanel
                         onUpdateSearch={this.onUpdateSearch}
                     />
                     <PostStatusFilter
-                    filter={filter}
-                    onFilterSelect={this.onFilterSelect}/>
+                        filter={filter}
+                        onFilterSelect={this.onFilterSelect}/>
                 </AppSearch>
                 <PostList
                     posts={visiblePosts}
