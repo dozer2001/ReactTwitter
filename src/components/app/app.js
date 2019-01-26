@@ -84,46 +84,28 @@ export default class App extends Component {
     }
 
     onToggleImportant(id) {
-        this.LikeOrImportant(1,id);
+        this.LikeOrImportant('important',id);
     }
     onToggleLiked(id) {
-        this.LikeOrImportant(2,id);
+        this.LikeOrImportant("like",id);
     }
     LikeOrImportant(prop,id) {
-
-        switch (prop){
-            case 1:
-                this.setState(({data}) => {
-                    const index = data.findIndex(elem => elem.id === id);
-                    const old = data[index];
-                    const newItem = {...old, important: !old.important};
-                    const newArr = [...data.slice(0, index), newItem, ...data.slice(index + 1)];
-
-                    return {
-                        data: newArr
-                    }
-                });
-                break;
-            case 2 :
-                    this.setState(({data}) => {
-                        const index = data.findIndex(elem => elem.id === id);
-                        const old = data[index];
-                        const newItem = {...old, like: !old.like};
-                        const newArr = [...data.slice(0, index), newItem, ...data.slice(index + 1)];
-
-                        return {
-                            data: newArr
-                        }
-                    });
-                break;
-        }
-
+        this.setState(({data}) => {
+            const index = data.findIndex(elem => elem.id === id);
+            const old = data[index];
+            let newItem = {};
+            if (prop === "like"){
+                newItem={...old,  like: !old.like}
+            }else{
+                newItem= {...old,  important: !old.important}
+            }
+            const newArr = [...data.slice(0, index), newItem, ...data.slice(index + 1)];
+            return {
+                data: newArr
+            }
+        });
 
     }
-
-
-
-
     searchPost(items, term) {
 
         if (term.length === 0) {
